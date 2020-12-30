@@ -1,21 +1,50 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState, useContext} from 'react';
+import { StyleSheet, View } from 'react-native';
+import AppHeader from './components/AppHeader';
+import TabMenu from './components/TabMenu';
+import DisplayItems from './components/DisplayItems';
+import AddItem from './components/AddItem';
+import RecoverItem from './components/RecoverItems'
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState('Items')
+  const [items , setNewItems] = useState(['Picke','Burger Bun', 'Tomato', 'Lettuce', 'Cheese', 'Burger Patty'])
+
+  const switchTabMenu = () =>{
+    switch (activeTab){
+      case 'Items':
+        return(
+          <DisplayItems 
+            items = {items}
+          />
+        )
+      case 'Add':
+        return(
+          <AddItem />
+        ) 
+      case 'Recover':
+        return(
+          <RecoverItem />
+        )
+      default:
+        return(
+          null
+        )
+    }
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View>
+      <AppHeader title="Bag of Holding" />
+      <TabMenu 
+        selectTab = {setActiveTab}
+      />
+      {switchTabMenu()}
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    flexDirection: 'column'
+  }
+})
